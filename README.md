@@ -13,7 +13,7 @@ A comprehensive web-based portal for managing student attendance and academic re
 - **Attendance Management**: Mark daily attendance, view attendance history, track attendance percentage
 - **Result Management**: Upload marks for quizzes, assignments, mid-terms, and finals with automatic grade calculation
 - **GPA Calculation**: Automatic GPA calculation based on grades
-- **Dashboard Analytics**: Visual statistics and performance indicators
+- **Dashboard Analytics**: Visual statistics and performance indicator
 
 ## 🛠️ Technologies Used
 

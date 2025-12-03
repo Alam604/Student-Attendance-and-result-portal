@@ -1,0 +1,323 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Teachers - Admin Portal</title>
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-brand">
+                    <div class="logo">P</div>
+                    <span>Student Portal</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">Main Menu</div>
+                    <a href="dashboard.html" class="nav-link" data-page="dashboard">
+                        <span class="icon">📊</span>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="teachers.html" class="nav-link active" data-page="teachers">
+                        <span class="icon">👨‍🏫</span>
+                        <span>Teachers</span>
+                    </a>
+                </div>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">AD</div>
+                    <div class="user-details">
+                        <div class="user-name">Administrator</div>
+                        <div class="user-role">admin</div>
+                    </div>
+                    <button class="logout-btn" title="Logout">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16 17 21 12 16 7"></polyline>
+                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-header">
+                <div class="header-left">
+                    <button class="menu-toggle">☰</button>
+                    <div>
+                        <h1 class="page-title">Manage Teachers</h1>
+                        <nav class="breadcrumb">
+                            <a href="dashboard.html">Home</a>
+                            <span class="breadcrumb-separator">/</span>
+                            <span>Teachers</span>
+                        </nav>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="btn btn-primary" onclick="showAddTeacherModal()">
+                        <span>+</span> Add Teacher
+                    </button>
+                </div>
+            </header>
+
+            <div class="content-area">
+                <!-- Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Total Teachers</h3>
+                            <div class="stat-value" id="totalTeachers">0</div>
+                        </div>
+                        <div class="stat-icon primary">👨‍🏫</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Active Courses</h3>
+                            <div class="stat-value" id="totalCourses">0</div>
+                        </div>
+                        <div class="stat-icon success">📚</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Departments</h3>
+                            <div class="stat-value" id="totalDepts">3</div>
+                        </div>
+                        <div class="stat-icon warning">🏢</div>
+                    </div>
+                </div>
+
+                <!-- Teachers Table -->
+                <div class="data-table">
+                    <div class="table-header">
+                        <h3 class="table-title">All Teachers</h3>
+                        <div class="table-actions">
+                            <div class="search-input">
+                                <span class="search-icon">🔍</span>
+                                <input type="text" class="form-control" id="searchInput" placeholder="Search teachers...">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-body">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Teacher</th>
+                                    <th>ID</th>
+                                    <th>Email</th>
+                                    <th>Department</th>
+                                    <th>Courses</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="teachersTableBody">
+                                <!-- Dynamic content -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Teacher Modal -->
+    <div class="modal-overlay" id="addTeacherModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Add New Teacher</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addTeacherForm">
+                    <div class="form-group">
+                        <label for="teacherName">Full Name</label>
+                        <input type="text" class="form-control" id="teacherName" required placeholder="Enter full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="teacherEmail">Email</label>
+                        <input type="email" class="form-control" id="teacherEmail" required placeholder="Enter email">
+                    </div>
+                    <div class="form-group">
+                        <label for="teacherDept">Department</label>
+                        <select class="form-control" id="teacherDept" required>
+                            <option value="">Select Department</option>
+                            <option value="Computer Science">Computer Science</option>
+                            <option value="Mathematics">Mathematics</option>
+                            <option value="Physics">Physics</option>
+                        </select>
+                    </div>
+                    <div class="form-group">
+                        <label for="teacherPassword">Password</label>
+                        <input type="password" class="form-control" id="teacherPassword" required placeholder="Enter password">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="addTeacher()">Add Teacher</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../js/storage.js"></script>
+    <script src="../../js/auth.js"></script>
+    <script src="../../js/ui.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            UIManager.initDashboard();
+            AuthManager.protectPage('admin');
+            loadTeachers();
+            loadStats();
+        });
+
+        function loadStats() {
+            const teachers = StorageManager.get('teachers') || [];
+            const courses = StorageManager.get('courses') || [];
+            
+            document.getElementById('totalTeachers').textContent = teachers.length;
+            document.getElementById('totalCourses').textContent = courses.length;
+        }
+
+        function loadTeachers() {
+            const teachers = StorageManager.get('teachers') || [];
+            const courses = StorageManager.get('courses') || [];
+            const tbody = document.getElementById('teachersTableBody');
+            
+            if (teachers.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="6" class="text-center p-6">
+                            <div class="empty-state">
+                                <div class="icon">👨‍🏫</div>
+                                <h3>No Teachers Found</h3>
+                                <p>Add your first teacher to get started.</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = teachers.map(teacher => {
+                const teacherCourses = courses.filter(c => c.teacherId === teacher.id);
+                return `
+                    <tr>
+                        <td>
+                            <div class="flex items-center gap-3">
+                                <div class="user-avatar" style="width:36px;height:36px;font-size:12px;">
+                                    ${teacher.name.split(' ').map(n => n[0]).join('').toUpperCase()}
+                                </div>
+                                <span>${UIManager.escapeHTML(teacher.name)}</span>
+                            </div>
+                        </td>
+                        <td>${UIManager.escapeHTML(teacher.id)}</td>
+                        <td>${UIManager.escapeHTML(teacher.email || 'N/A')}</td>
+                        <td>${UIManager.escapeHTML(teacher.department || 'N/A')}</td>
+                        <td>
+                            <span class="badge badge-primary">${teacherCourses.length} courses</span>
+                        </td>
+                        <td>
+                            <button class="action-btn edit" title="Edit" onclick="editTeacher('${teacher.id}')">✏️</button>
+                            <button class="action-btn delete" title="Delete" onclick="deleteTeacher('${teacher.id}')">🗑️</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function showAddTeacherModal() {
+            document.getElementById('addTeacherModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('addTeacherModal').classList.remove('active');
+            document.getElementById('addTeacherForm').reset();
+        }
+
+        function addTeacher() {
+            const name = document.getElementById('teacherName').value;
+            const email = document.getElementById('teacherEmail').value;
+            const department = document.getElementById('teacherDept').value;
+            const password = document.getElementById('teacherPassword').value;
+
+            if (!name || !email || !department || !password) {
+                UIManager.showToast('Please fill all fields', 'error');
+                return;
+            }
+
+            const teachers = StorageManager.get('teachers') || [];
+            const users = StorageManager.get('users') || [];
+            
+            const newId = 'teacher' + String(teachers.length + 1).padStart(3, '0');
+            
+            const newTeacher = {
+                id: newId,
+                name,
+                email,
+                department
+            };
+            
+            const newUser = {
+                id: newId,
+                password,
+                role: 'teacher',
+                name
+            };
+            
+            teachers.push(newTeacher);
+            users.push(newUser);
+            
+            StorageManager.set('teachers', teachers);
+            StorageManager.set('users', users);
+            
+            UIManager.showToast('Teacher added successfully!', 'success');
+            closeModal();
+            loadTeachers();
+            loadStats();
+        }
+
+        function deleteTeacher(id) {
+            if (!confirm('Are you sure you want to delete this teacher?')) return;
+            
+            let teachers = StorageManager.get('teachers') || [];
+            let users = StorageManager.get('users') || [];
+            
+            teachers = teachers.filter(t => t.id !== id);
+            users = users.filter(u => u.id !== id);
+            
+            StorageManager.set('teachers', teachers);
+            StorageManager.set('users', users);
+            
+            UIManager.showToast('Teacher deleted successfully!', 'success');
+            loadTeachers();
+            loadStats();
+        }
+
+        function editTeacher(id) {
+            UIManager.showToast('Edit feature coming soon!', 'info');
+        }
+
+        // Search functionality
+        document.getElementById('searchInput').addEventListener('input', function(e) {
+            const query = e.target.value.toLowerCase();
+            const rows = document.querySelectorAll('#teachersTableBody tr');
+            
+            rows.forEach(row => {
+                const text = row.textContent.toLowerCase();
+                row.style.display = text.includes(query) ? '' : 'none';
+            });
+        });
+    </script>
+</body>
+</html>

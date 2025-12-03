@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Teacher Dashboard - Student Portal</title>
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-brand">
+                    <div class="logo">P</div>
+                    <span>Student Portal</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">Main Menu</div>
+                    <a href="dashboard.html" class="nav-link active" data-page="dashboard">
+                        <span class="icon">📊</span>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="attendance.html" class="nav-link" data-page="attendance">
+                        <span class="icon">📋</span>
+                        <span>Mark Attendance</span>
+                    </a>
+                    <a href="results.html" class="nav-link" data-page="results">
+                        <span class="icon">📝</span>
+                        <span>Upload Results</span>
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-section-title">My Courses</div>
+                    <div id="coursesList">
+                        <!-- Dynamic course list -->
+                    </div>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-section-title">Reports</div>
+                    <a href="attendance-report.html" class="nav-link" data-page="attendance-report">
+                        <span class="icon">📈</span>
+                        <span>Attendance Report</span>
+                    </a>
+                    <a href="grade-report.html" class="nav-link" data-page="grade-report">
+                        <span class="icon">📊</span>
+                        <span>Grade Report</span>
+                    </a>
+                </div>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">TN</div>
+                    <div class="user-details">
+                        <div class="user-name">Teacher Name</div>
+                        <div class="user-role">teacher</div>
+                    </div>
+                    <button class="logout-btn" title="Logout">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16 17 21 12 16 7"></polyline>
+                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-header">
+                <div class="header-left">
+                    <button class="menu-toggle">☰</button>
+                    <div>
+                        <h1 class="page-title">Dashboard</h1>
+                        <nav class="breadcrumb">
+                            <a href="dashboard.html">Home</a>
+                            <span class="breadcrumb-separator">/</span>
+                            <span>Dashboard</span>
+                        </nav>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="header-action" title="Notifications">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                    </button>
+                </div>
+            </header>
+
+            <div class="content-area">
+                <!-- Welcome Banner -->
+                <div class="card mb-6" style="background: linear-gradient(135deg, var(--primary-color), var(--primary-dark)); color: white;">
+                    <div class="card-body" style="padding: 32px;">
+                        <h2 style="color: white; margin-bottom: 8px;">Welcome back, <span id="teacherName">Teacher</span>! 👋</h2>
+                        <p style="color: rgba(255,255,255,0.8); margin-bottom: 0;">Today is <span id="currentDate"></span>. You have classes to manage.</p>
+                    </div>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>My Courses</h3>
+                            <div class="stat-value" id="totalCourses">0</div>
+                            <div class="stat-change positive">
+                                <span>Active courses</span>
+                            </div>
+                        </div>
+                        <div class="stat-icon primary">📚</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Total Students</h3>
+                            <div class="stat-value" id="totalStudents">0</div>
+                            <div class="stat-change positive">
+                                <span>Enrolled students</span>
+                            </div>
+                        </div>
+                        <div class="stat-icon success">👨‍🎓</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Avg Attendance</h3>
+                            <div class="stat-value" id="avgAttendance">0%</div>
+                            <div class="stat-change">
+                                <span>Across all courses</span>
+                            </div>
+                        </div>
+                        <div class="stat-icon warning">📊</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Results Uploaded</h3>
+                            <div class="stat-value" id="resultsUploaded">0</div>
+                            <div class="stat-change">
+                                <span>Student results</span>
+                            </div>
+                        </div>
+                        <div class="stat-icon danger">📝</div>
+                    </div>
+                </div>
+
+                <!-- Quick Actions -->
+                <div class="content-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Quick Actions</h2>
+                    </div>
+                    <div class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(200px, 1fr));">
+                        <a href="attendance.html" class="card" style="text-decoration: none;">
+                            <div class="card-body text-center" style="padding: 24px;">
+                                <div style="font-size: 48px; margin-bottom: 12px;">📋</div>
+                                <h3 style="font-size: 16px; margin-bottom: 4px;">Mark Attendance</h3>
+                                <p class="text-muted text-sm" style="margin: 0;">Record today's attendance</p>
+                            </div>
+                        </a>
+                        <a href="results.html" class="card" style="text-decoration: none;">
+                            <div class="card-body text-center" style="padding: 24px;">
+                                <div style="font-size: 48px; margin-bottom: 12px;">📝</div>
+                                <h3 style="font-size: 16px; margin-bottom: 4px;">Upload Results</h3>
+                                <p class="text-muted text-sm" style="margin: 0;">Enter student marks</p>
+                            </div>
+                        </a>
+                        <a href="attendance-report.html" class="card" style="text-decoration: none;">
+                            <div class="card-body text-center" style="padding: 24px;">
+                                <div style="font-size: 48px; margin-bottom: 12px;">📈</div>
+                                <h3 style="font-size: 16px; margin-bottom: 4px;">View Reports</h3>
+                                <p class="text-muted text-sm" style="margin: 0;">Analytics & reports</p>
+                            </div>
+                        </a>
+                    </div>
+                </div>
+
+                <!-- My Courses Section -->
+                <div class="content-section">
+                    <div class="section-header">
+                        <h2 class="section-title">My Courses</h2>
+                    </div>
+                    <div id="coursesGrid" class="stats-grid" style="grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));">
+                        <!-- Dynamic courses -->
+                    </div>
+                </div>
+
+                <!-- Recent Activity -->
+                <div class="content-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Recent Attendance Activity</h2>
+                    </div>
+                    <div class="data-table">
+                        <div class="table-body">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Course</th>
+                                        <th>Students Present</th>
+                                        <th>Students Absent</th>
+                                        <th>Attendance Rate</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="recentActivityBody">
+                                    <!-- Dynamic content -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../../js/storage.js"></script>
+    <script src="../../js/auth.js"></script>
+    <script src="../../js/attendance.js"></script>
+    <script src="../../js/results.js"></script>
+    <script src="../../js/ui.js"></script>
+    <script src="../../js/teacher-dashboard.js"></script>
+</body>
+</html>

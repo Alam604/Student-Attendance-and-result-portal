@@ -1,0 +1,617 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Result Reports - Admin Portal</title>
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-brand">
+                    <div class="logo">P</div>
+                    <span>Student Portal</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">Main Menu</div>
+                    <a href="dashboard.html" class="nav-link" data-page="dashboard">
+                        <span class="icon">📊</span>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="students.html" class="nav-link" data-page="students">
+                        <span class="icon">👨‍🎓</span>
+                        <span>Students</span>
+                    </a>
+                    <a href="teachers.html" class="nav-link" data-page="teachers">
+                        <span class="icon">👨‍🏫</span>
+                        <span>Teachers</span>
+                    </a>
+                    <a href="courses.html" class="nav-link" data-page="courses">
+                        <span class="icon">📚</span>
+                        <span>Courses</span>
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-section-title">Reports</div>
+                    <a href="attendance-report.html" class="nav-link" data-page="attendance-report">
+                        <span class="icon">📋</span>
+                        <span>Attendance Reports</span>
+                    </a>
+                    <a href="results-report.html" class="nav-link active" data-page="results-report">
+                        <span class="icon">📈</span>
+                        <span>Result Reports</span>
+                    </a>
+                </div>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">AD</div>
+                    <div class="user-details">
+                        <div class="user-name">Administrator</div>
+                        <div class="user-role">admin</div>
+                    </div>
+                    <button class="logout-btn" title="Logout">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16 17 21 12 16 7"></polyline>
+                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-header">
+                <div class="header-left">
+                    <button class="menu-toggle">☰</button>
+                    <div>
+                        <h1 class="page-title">Result Reports</h1>
+                        <nav class="breadcrumb">
+                            <a href="dashboard.html">Home</a>
+                            <span class="breadcrumb-separator">/</span>
+                            <span>Reports</span>
+                            <span class="breadcrumb-separator">/</span>
+                            <span>Results</span>
+                        </nav>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="btn btn-primary" onclick="exportReport()">
+                        <span>📥</span> Export Report
+                    </button>
+                </div>
+            </header>
+
+            <div class="content-area">
+                <!-- Summary Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Average GPA</h3>
+                            <div class="stat-value" id="avgGPA">0.00</div>
+                        </div>
+                        <div class="stat-icon primary">🎓</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Pass Rate</h3>
+                            <div class="stat-value" id="passRate">0%</div>
+                        </div>
+                        <div class="stat-icon success">✅</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Top Performers</h3>
+                            <div class="stat-value" id="topPerformers">0</div>
+                        </div>
+                        <div class="stat-icon warning">🏆</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Need Improvement</h3>
+                            <div class="stat-value" id="needImprovement">0</div>
+                        </div>
+                        <div class="stat-icon danger">⚠️</div>
+                    </div>
+                </div>
+
+                <!-- Filters -->
+                <div class="card mb-6">
+                    <div class="card-body">
+                        <div class="flex gap-4" style="flex-wrap: wrap; align-items: flex-end;">
+                            <div class="form-group" style="margin-bottom: 0; flex: 1; min-width: 200px;">
+                                <label for="courseFilter">Course</label>
+                                <select class="form-control" id="courseFilter">
+                                    <option value="">All Courses</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0; flex: 1; min-width: 200px;">
+                                <label for="gradeFilter">Grade</label>
+                                <select class="form-control" id="gradeFilter">
+                                    <option value="">All Grades</option>
+                                    <option value="A">A Grade (A+, A, A-)</option>
+                                    <option value="B">B Grade (B+, B, B-)</option>
+                                    <option value="C">C Grade (C+, C, C-)</option>
+                                    <option value="D">D Grade</option>
+                                    <option value="F">Failed (F)</option>
+                                </select>
+                            </div>
+                            <button class="btn btn-primary" onclick="applyFilters()">Apply Filters</button>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Grade Distribution Chart -->
+                <div class="card mb-6">
+                    <div class="card-header">
+                        <h3>📊 Grade Distribution</h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="gradeDistribution" class="flex gap-4" style="flex-wrap: wrap; justify-content: center;">
+                            <!-- Dynamic grade bars -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Course Performance -->
+                <div class="card mb-6">
+                    <div class="card-header">
+                        <h3>📈 Course-wise Performance</h3>
+                    </div>
+                    <div class="card-body">
+                        <div id="coursePerformance">
+                            <!-- Dynamic course performance -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detailed Results Table -->
+                <div class="data-table">
+                    <div class="table-header">
+                        <h3 class="table-title">Detailed Results Report</h3>
+                        <div class="table-actions">
+                            <div class="search-input">
+                                <span class="search-icon">🔍</span>
+                                <input type="text" class="form-control" id="searchInput" placeholder="Search students...">
+                            </div>
+                        </div>
+                    </div>
+                    <div class="table-body">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Student</th>
+                                    <th>ID</th>
+                                    <th>Course</th>
+                                    <th>Quiz</th>
+                                    <th>Assignment</th>
+                                    <th>Mid-Term</th>
+                                    <th>Final</th>
+                                    <th>Total</th>
+                                    <th>Grade</th>
+                                </tr>
+                            </thead>
+                            <tbody id="reportTableBody">
+                                <!-- Dynamic content -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+
+                <!-- Top Students Section -->
+                <div class="content-section mt-6">
+                    <div class="section-header">
+                        <h2 class="section-title">🏆 Top Performing Students</h2>
+                    </div>
+                    <div class="stats-grid" id="topStudentsGrid">
+                        <!-- Dynamic top students -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../../js/storage.js"></script>
+    <script src="../../js/auth.js"></script>
+    <script src="../../js/results.js"></script>
+    <script src="../../js/ui.js"></script>
+    <script>
+        document.addEventListener('DOMContentLoaded', function() {
+            UIManager.initDashboard();
+            AuthManager.protectPage('admin');
+            loadCourseFilter();
+            loadStats();
+            loadGradeDistribution();
+            loadCoursePerformance();
+            loadReport();
+            loadTopStudents();
+            initEventListeners();
+        });
+
+        function loadCourseFilter() {
+            const courses = StorageManager.get('courses') || [];
+            const select = document.getElementById('courseFilter');
+            
+            courses.forEach(course => {
+                const option = document.createElement('option');
+                option.value = course.id;
+                option.textContent = `${course.code} - ${course.name}`;
+                select.appendChild(option);
+            });
+        }
+
+        function loadStats() {
+            const results = StorageManager.get('results') || [];
+            const students = StorageManager.get('students') || [];
+            
+            if (results.length === 0) {
+                document.getElementById('avgGPA').textContent = '0.00';
+                document.getElementById('passRate').textContent = '0%';
+                document.getElementById('topPerformers').textContent = '0';
+                document.getElementById('needImprovement').textContent = '0';
+                return;
+            }
+            
+            // Calculate stats
+            let totalGPA = 0;
+            let passCount = 0;
+            let topCount = 0;
+            let lowCount = 0;
+            
+            const studentResults = {};
+            results.forEach(r => {
+                if (!studentResults[r.studentId]) {
+                    studentResults[r.studentId] = [];
+                }
+                studentResults[r.studentId].push(r);
+            });
+            
+            Object.values(studentResults).forEach(studentGrades => {
+                const gpaData = calculateStudentGPA(studentGrades);
+                totalGPA += gpaData.gpa;
+                
+                const hasFailure = studentGrades.some(r => r.grade === 'F');
+                if (!hasFailure) passCount++;
+                
+                if (gpaData.gpa >= 3.5) topCount++;
+                if (gpaData.gpa < 2.0) lowCount++;
+            });
+            
+            const studentCount = Object.keys(studentResults).length;
+            const avgGPA = studentCount > 0 ? (totalGPA / studentCount).toFixed(2) : '0.00';
+            const passRate = studentCount > 0 ? Math.round((passCount / studentCount) * 100) : 0;
+            
+            document.getElementById('avgGPA').textContent = avgGPA;
+            document.getElementById('passRate').textContent = passRate + '%';
+            document.getElementById('topPerformers').textContent = topCount;
+            document.getElementById('needImprovement').textContent = lowCount;
+        }
+
+        function calculateStudentGPA(results) {
+            const gradePoints = {
+                'A+': 4.0, 'A': 4.0, 'A-': 3.7,
+                'B+': 3.3, 'B': 3.0, 'B-': 2.7,
+                'C+': 2.3, 'C': 2.0, 'C-': 1.7,
+                'D': 1.0, 'F': 0.0
+            };
+            
+            let totalPoints = 0;
+            let totalCredits = 0;
+            const courses = StorageManager.get('courses') || [];
+            
+            results.forEach(r => {
+                const course = courses.find(c => c.id === r.courseId);
+                const credits = course ? course.credits : 3;
+                totalPoints += (gradePoints[r.grade] || 0) * credits;
+                totalCredits += credits;
+            });
+            
+            return {
+                gpa: totalCredits > 0 ? totalPoints / totalCredits : 0,
+                totalCredits
+            };
+        }
+
+        function loadGradeDistribution() {
+            const results = StorageManager.get('results') || [];
+            const container = document.getElementById('gradeDistribution');
+            
+            const gradeCounts = {
+                'A': 0, 'B': 0, 'C': 0, 'D': 0, 'F': 0
+            };
+            
+            results.forEach(r => {
+                if (r.grade.startsWith('A')) gradeCounts['A']++;
+                else if (r.grade.startsWith('B')) gradeCounts['B']++;
+                else if (r.grade.startsWith('C')) gradeCounts['C']++;
+                else if (r.grade === 'D') gradeCounts['D']++;
+                else if (r.grade === 'F') gradeCounts['F']++;
+            });
+            
+            const total = results.length;
+            const colors = {
+                'A': '#10B981',
+                'B': '#3B82F6',
+                'C': '#F59E0B',
+                'D': '#F97316',
+                'F': '#EF4444'
+            };
+            
+            let html = '';
+            Object.entries(gradeCounts).forEach(([grade, count]) => {
+                const percent = total > 0 ? Math.round((count / total) * 100) : 0;
+                const height = Math.max(20, percent * 2);
+                
+                html += `
+                    <div style="text-align: center; flex: 1; min-width: 60px; max-width: 100px;">
+                        <div style="
+                            height: ${height}px;
+                            background: ${colors[grade]};
+                            border-radius: 8px 8px 0 0;
+                            margin: 0 auto;
+                            width: 50px;
+                            display: flex;
+                            align-items: flex-end;
+                            justify-content: center;
+                            color: white;
+                            font-weight: bold;
+                            padding-bottom: 4px;
+                            min-height: 30px;
+                        ">
+                            ${count}
+                        </div>
+                        <div style="
+                            background: ${colors[grade]}22;
+                            padding: 8px;
+                            border-radius: 0 0 8px 8px;
+                            font-weight: 600;
+                            color: ${colors[grade]};
+                        ">
+                            ${grade} Grade
+                        </div>
+                        <div class="text-sm text-muted mt-1">${percent}%</div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html || '<p class="text-muted text-center">No results data available</p>';
+        }
+
+        function loadCoursePerformance() {
+            const results = StorageManager.get('results') || [];
+            const courses = StorageManager.get('courses') || [];
+            const container = document.getElementById('coursePerformance');
+            
+            if (courses.length === 0) {
+                container.innerHTML = '<p class="text-muted text-center p-4">No courses available</p>';
+                return;
+            }
+            
+            let html = '';
+            
+            courses.forEach(course => {
+                const courseResults = results.filter(r => r.courseId === course.id);
+                
+                if (courseResults.length === 0) return;
+                
+                let totalMarks = 0;
+                courseResults.forEach(r => {
+                    totalMarks += ResultsManager.calculateTotal(r);
+                });
+                
+                const avgMarks = Math.round(totalMarks / courseResults.length);
+                const passCount = courseResults.filter(r => r.grade !== 'F').length;
+                const passRate = Math.round((passCount / courseResults.length) * 100);
+                
+                const barColor = avgMarks >= 80 ? 'success' : avgMarks >= 60 ? 'warning' : 'danger';
+                
+                html += `
+                    <div style="margin-bottom: 20px; padding: 16px; background: var(--bg-secondary); border-radius: 12px;">
+                        <div class="flex justify-between items-center mb-3">
+                            <div>
+                                <span style="font-weight: 600;">${UIManager.escapeHTML(course.code)}</span>
+                                <span class="text-muted"> - ${UIManager.escapeHTML(course.name)}</span>
+                            </div>
+                            <div class="flex gap-4">
+                                <span class="badge badge-primary">${courseResults.length} students</span>
+                                <span class="badge badge-success">${passRate}% pass rate</span>
+                            </div>
+                        </div>
+                        <div class="flex justify-between mb-2">
+                            <span class="text-sm text-muted">Average Score</span>
+                            <span style="font-weight: 600; color: var(--${barColor === 'success' ? 'accent-success' : barColor === 'warning' ? 'accent-warning' : 'accent-danger'});">${avgMarks}%</span>
+                        </div>
+                        <div class="progress-bar" style="height: 10px;">
+                            <div class="progress-fill ${barColor}" style="width: ${avgMarks}%;"></div>
+                        </div>
+                    </div>
+                `;
+            });
+            
+            container.innerHTML = html || '<p class="text-muted text-center p-4">No results available</p>';
+        }
+
+        function loadReport() {
+            const results = StorageManager.get('results') || [];
+            const students = StorageManager.get('students') || [];
+            const courses = StorageManager.get('courses') || [];
+            const tbody = document.getElementById('reportTableBody');
+            
+            // Get filter values
+            const courseFilter = document.getElementById('courseFilter').value;
+            const gradeFilter = document.getElementById('gradeFilter').value;
+            
+            let filteredResults = [...results];
+            
+            // Apply course filter
+            if (courseFilter) {
+                filteredResults = filteredResults.filter(r => r.courseId === courseFilter);
+            }
+            
+            // Apply grade filter
+            if (gradeFilter) {
+                filteredResults = filteredResults.filter(r => r.grade.startsWith(gradeFilter));
+            }
+            
+            if (filteredResults.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="9" class="text-center p-6">
+                            <div class="empty-state">
+                                <div class="icon">📋</div>
+                                <h3>No Results Found</h3>
+                                <p>No results match your filters.</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+            
+            tbody.innerHTML = filteredResults.map(result => {
+                const student = students.find(s => s.id === result.studentId);
+                const course = courses.find(c => c.id === result.courseId);
+                const total = ResultsManager.calculateTotal(result);
+                
+                if (!student || !course) return '';
+                
+                const gradeClass = result.grade.startsWith('A') ? 'success' : 
+                                   result.grade.startsWith('B') ? 'info' :
+                                   result.grade.startsWith('C') ? 'warning' :
+                                   result.grade === 'D' ? 'warning' : 'danger';
+                
+                return `
+                    <tr>
+                        <td>
+                            <div class="flex items-center gap-3">
+                                <div class="user-avatar" style="width:36px;height:36px;font-size:12px;">
+                                    ${student.name.split(' ').map(n => n[0]).join('').toUpperCase()}
+                                </div>
+                                <span>${UIManager.escapeHTML(student.name)}</span>
+                            </div>
+                        </td>
+                        <td>${UIManager.escapeHTML(student.id)}</td>
+                        <td><span class="badge badge-primary">${UIManager.escapeHTML(course.code)}</span></td>
+                        <td>${result.quiz}/10</td>
+                        <td>${result.assignment}/20</td>
+                        <td>${result.midterm}/30</td>
+                        <td>${result.final}/40</td>
+                        <td style="font-weight: 600;">${total}/100</td>
+                        <td>
+                            <span class="grade-badge grade-${result.grade.charAt(0).toLowerCase()}">${result.grade}</span>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function loadTopStudents() {
+            const results = StorageManager.get('results') || [];
+            const students = StorageManager.get('students') || [];
+            const container = document.getElementById('topStudentsGrid');
+            
+            // Calculate GPA for each student
+            const studentGPAs = {};
+            
+            students.forEach(student => {
+                const studentResults = results.filter(r => r.studentId === student.id);
+                if (studentResults.length > 0) {
+                    const gpaData = calculateStudentGPA(studentResults);
+                    studentGPAs[student.id] = {
+                        student,
+                        gpa: gpaData.gpa,
+                        courses: studentResults.length
+                    };
+                }
+            });
+            
+            // Sort by GPA and get top 4
+            const topStudents = Object.values(studentGPAs)
+                .sort((a, b) => b.gpa - a.gpa)
+                .slice(0, 4);
+            
+            if (topStudents.length === 0) {
+                container.innerHTML = '<p class="text-muted text-center p-4" style="grid-column: 1/-1;">No student results available</p>';
+                return;
+            }
+            
+            const medals = ['🥇', '🥈', '🥉', '🏅'];
+            
+            container.innerHTML = topStudents.map((item, index) => `
+                <div class="stat-card" style="position: relative;">
+                    <div style="position: absolute; top: 10px; right: 10px; font-size: 24px;">${medals[index]}</div>
+                    <div class="stat-info">
+                        <div class="flex items-center gap-3 mb-3">
+                            <div class="user-avatar" style="width:48px;height:48px;">
+                                ${item.student.name.split(' ').map(n => n[0]).join('').toUpperCase()}
+                            </div>
+                            <div>
+                                <div style="font-weight: 600;">${UIManager.escapeHTML(item.student.name)}</div>
+                                <div class="text-sm text-muted">${item.courses} courses</div>
+                            </div>
+                        </div>
+                        <div class="stat-value" style="color: var(--primary-color);">${item.gpa.toFixed(2)} GPA</div>
+                    </div>
+                </div>
+            `).join('');
+        }
+
+        function applyFilters() {
+            loadReport();
+            UIManager.showToast('Filters applied!', 'success');
+        }
+
+        function exportReport() {
+            const results = StorageManager.get('results') || [];
+            const students = StorageManager.get('students') || [];
+            const courses = StorageManager.get('courses') || [];
+            
+            let csv = 'Student Name,Student ID,Course,Quiz,Assignment,Mid-Term,Final,Total,Grade\n';
+            
+            results.forEach(result => {
+                const student = students.find(s => s.id === result.studentId);
+                const course = courses.find(c => c.id === result.courseId);
+                const total = ResultsManager.calculateTotal(result);
+                
+                if (student && course) {
+                    csv += `"${student.name}","${student.id}","${course.code}",${result.quiz},${result.assignment},${result.midterm},${result.final},${total},"${result.grade}"\n`;
+                }
+            });
+            
+            const blob = new Blob([csv], { type: 'text/csv' });
+            const url = window.URL.createObjectURL(blob);
+            const a = document.createElement('a');
+            a.href = url;
+            a.download = 'results_report.csv';
+            a.click();
+            window.URL.revokeObjectURL(url);
+            
+            UIManager.showToast('Report exported successfully!', 'success');
+        }
+
+        function initEventListeners() {
+            document.getElementById('searchInput').addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                const rows = document.querySelectorAll('#reportTableBody tr');
+                
+                rows.forEach(row => {
+                    const text = row.textContent.toLowerCase();
+                    row.style.display = text.includes(query) ? '' : 'none';
+                });
+            });
+        }
+    </script>
+</body>
+</html>

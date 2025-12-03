@@ -1,0 +1,296 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Admin Dashboard - Student Portal</title>
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-brand">
+                    <div class="logo">P</div>
+                    <span>Student Portal</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">Main Menu</div>
+                    <a href="dashboard.html" class="nav-link active" data-page="dashboard">
+                        <span class="icon">📊</span>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="students.html" class="nav-link" data-page="students">
+                        <span class="icon">👨‍🎓</span>
+                        <span>Students</span>
+                    </a>
+                    <a href="teachers.html" class="nav-link" data-page="teachers">
+                        <span class="icon">👨‍🏫</span>
+                        <span>Teachers</span>
+                    </a>
+                    <a href="courses.html" class="nav-link" data-page="courses">
+                        <span class="icon">📚</span>
+                        <span>Courses</span>
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-section-title">Reports</div>
+                    <a href="attendance-report.html" class="nav-link" data-page="attendance-report">
+                        <span class="icon">📋</span>
+                        <span>Attendance Reports</span>
+                    </a>
+                    <a href="results-report.html" class="nav-link" data-page="results-report">
+                        <span class="icon">📈</span>
+                        <span>Result Reports</span>
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-section-title">Settings</div>
+                    <a href="settings.html" class="nav-link" data-page="settings">
+                        <span class="icon">⚙️</span>
+                        <span>System Settings</span>
+                    </a>
+                </div>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">SA</div>
+                    <div class="user-details">
+                        <div class="user-name">System Admin</div>
+                        <div class="user-role">admin</div>
+                    </div>
+                    <button class="logout-btn" title="Logout">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16 17 21 12 16 7"></polyline>
+                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-header">
+                <div class="header-left">
+                    <button class="menu-toggle">☰</button>
+                    <div>
+                        <h1 class="page-title">Dashboard</h1>
+                        <nav class="breadcrumb">
+                            <a href="dashboard.html">Home</a>
+                            <span class="breadcrumb-separator">/</span>
+                            <span>Dashboard</span>
+                        </nav>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="header-action" title="Notifications">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M18 8A6 6 0 0 0 6 8c0 7-3 9-3 9h18s-3-2-3-9"></path>
+                            <path d="M13.73 21a2 2 0 0 1-3.46 0"></path>
+                        </svg>
+                        <span class="notification-badge">3</span>
+                    </button>
+                    <button class="header-action" title="Settings">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <circle cx="12" cy="12" r="3"></circle>
+                            <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1 0 2.83 2 2 0 0 1-2.83 0l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-2 2 2 2 0 0 1-2-2v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83 0 2 2 0 0 1 0-2.83l.06-.06a1.65 1.65 0 0 0 .33-1.82 1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1-2-2 2 2 0 0 1 2-2h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 0-2.83 2 2 0 0 1 2.83 0l.06.06a1.65 1.65 0 0 0 1.82.33H9a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 2-2 2 2 0 0 1 2 2v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 0 2 2 0 0 1 0 2.83l-.06.06a1.65 1.65 0 0 0-.33 1.82V9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 2 2 2 2 0 0 1-2 2h-.09a1.65 1.65 0 0 0-1.51 1z"></path>
+                        </svg>
+                    </button>
+                </div>
+            </header>
+
+            <div class="content-area">
+                <!-- Stats Cards -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Total Students</h3>
+                            <div class="stat-value" id="totalStudents">0</div>
+                            <div class="stat-change positive">
+                                <span>↑</span>
+                                <span>Active enrollment</span>
+                            </div>
+                        </div>
+                        <div class="stat-icon primary">👨‍🎓</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Total Teachers</h3>
+                            <div class="stat-value" id="totalTeachers">0</div>
+                            <div class="stat-change positive">
+                                <span>↑</span>
+                                <span>Faculty members</span>
+                            </div>
+                        </div>
+                        <div class="stat-icon success">👨‍🏫</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Active Courses</h3>
+                            <div class="stat-value" id="totalCourses">0</div>
+                            <div class="stat-change positive">
+                                <span>↑</span>
+                                <span>This semester</span>
+                            </div>
+                        </div>
+                        <div class="stat-icon warning">📚</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Avg Attendance</h3>
+                            <div class="stat-value" id="avgAttendance">0%</div>
+                            <div class="stat-change" id="attendanceChange">
+                                <span>↑</span>
+                                <span>Overall rate</span>
+                            </div>
+                        </div>
+                        <div class="stat-icon danger">📊</div>
+                    </div>
+                </div>
+
+                <div class="content-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Recent Activity</h2>
+                        <button class="btn btn-outline btn-sm">View All</button>
+                    </div>
+                    
+                    <!-- Recent Students Table -->
+                    <div class="data-table">
+                        <div class="table-header">
+                            <h3 class="table-title">Students Overview</h3>
+                            <div class="table-actions">
+                                <div class="search-input">
+                                    <span class="search-icon">🔍</span>
+                                    <input type="text" class="form-control" placeholder="Search students..." id="searchStudents">
+                                </div>
+                                <button class="btn btn-primary btn-sm" id="addStudentBtn">
+                                    <span>+ Add Student</span>
+                                </button>
+                            </div>
+                        </div>
+                        <div class="table-body">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Student</th>
+                                        <th>ID</th>
+                                        <th>Department</th>
+                                        <th>Semester</th>
+                                        <th>Status</th>
+                                        <th>Attendance</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="studentsTableBody">
+                                    <!-- Dynamic content -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Students at Risk Section -->
+                <div class="content-section">
+                    <div class="section-header">
+                        <h2 class="section-title">⚠️ Students at Risk (Low Attendance)</h2>
+                    </div>
+                    <div class="data-table">
+                        <div class="table-body">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Student Name</th>
+                                        <th>ID</th>
+                                        <th>Department</th>
+                                        <th>Attendance %</th>
+                                        <th>Status</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="atRiskTableBody">
+                                    <!-- Dynamic content -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add Student Modal -->
+    <div class="modal-overlay" id="addStudentModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3>Add New Student</h3>
+                <button class="modal-close">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="addStudentForm">
+                    <div class="form-group">
+                        <label for="studentName">Full Name</label>
+                        <input type="text" id="studentName" class="form-control" placeholder="Enter student name" required>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentEmail">Email</label>
+                        <input type="email" id="studentEmail" class="form-control" placeholder="Enter email" required>
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="studentDept">Department</label>
+                            <select id="studentDept" class="form-control" required>
+                                <option value="">Select Department</option>
+                                <option value="Computer Science">Computer Science</option>
+                                <option value="Information Technology">Information Technology</option>
+                                <option value="Software Engineering">Software Engineering</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="studentSemester">Semester</label>
+                            <select id="studentSemester" class="form-control" required>
+                                <option value="">Select Semester</option>
+                                <option value="1">1st Semester</option>
+                                <option value="2">2nd Semester</option>
+                                <option value="3">3rd Semester</option>
+                                <option value="4">4th Semester</option>
+                                <option value="5">5th Semester</option>
+                                <option value="6">6th Semester</option>
+                                <option value="7">7th Semester</option>
+                                <option value="8">8th Semester</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="studentPassword">Initial Password</label>
+                        <input type="password" id="studentPassword" class="form-control" placeholder="Enter password" required>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary modal-cancel">Cancel</button>
+                <button class="btn btn-primary" id="saveStudentBtn">Save Student</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../js/storage.js"></script>
+    <script src="../../js/auth.js"></script>
+    <script src="../../js/attendance.js"></script>
+    <script src="../../js/results.js"></script>
+    <script src="../../js/ui.js"></script>
+    <script src="../../js/admin-dashboard.js"></script>
+</body>
+</html>

@@ -1,0 +1,171 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>My Results - Student Portal</title>
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-brand">
+                    <div class="logo">P</div>
+                    <span>Student Portal</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">Main Menu</div>
+                    <a href="dashboard.html" class="nav-link" data-page="dashboard">
+                        <span class="icon">📊</span>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="attendance.html" class="nav-link" data-page="attendance">
+                        <span class="icon">📋</span>
+                        <span>My Attendance</span>
+                    </a>
+                    <a href="results.html" class="nav-link active" data-page="results">
+                        <span class="icon">📝</span>
+                        <span>My Results</span>
+                    </a>
+                </div>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">SN</div>
+                    <div class="user-details">
+                        <div class="user-name">Student Name</div>
+                        <div class="user-role">student</div>
+                    </div>
+                    <button class="logout-btn" title="Logout">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16 17 21 12 16 7"></polyline>
+                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-header">
+                <div class="header-left">
+                    <button class="menu-toggle">☰</button>
+                    <div>
+                        <h1 class="page-title">My Results</h1>
+                        <nav class="breadcrumb">
+                            <a href="dashboard.html">Home</a>
+                            <span class="breadcrumb-separator">/</span>
+                            <span>Results</span>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-area">
+                <!-- GPA Card -->
+                <div class="card mb-6" style="background: linear-gradient(135deg, #667eea 0%, #764ba2 100%); color: white;">
+                    <div class="card-body" style="padding: 32px;">
+                        <div class="flex justify-between items-center">
+                            <div>
+                                <h3 style="color: rgba(255,255,255,0.8); font-size: 14px; margin-bottom: 8px;">
+                                    Cumulative GPA
+                                </h3>
+                                <div style="font-size: 48px; font-weight: 700;" id="gpaValue">0.00</div>
+                                <div style="color: rgba(255,255,255,0.7);">
+                                    <span id="totalCredits">0</span> Credits Completed
+                                </div>
+                            </div>
+                            <div style="text-align: right;">
+                                <div style="font-size: 64px;">🎓</div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Stats Cards -->
+                <div class="stats-grid mb-6">
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Courses Completed</h3>
+                            <div class="stat-value" id="coursesCompleted">0</div>
+                        </div>
+                        <div class="stat-icon primary">📚</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Average Marks</h3>
+                            <div class="stat-value" id="averageMarks">0</div>
+                        </div>
+                        <div class="stat-icon success">📊</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Highest Score</h3>
+                            <div class="stat-value" id="highestScore">0</div>
+                        </div>
+                        <div class="stat-icon warning">🏆</div>
+                    </div>
+                    
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Courses Passed</h3>
+                            <div class="stat-value" id="coursesPassed">0</div>
+                        </div>
+                        <div class="stat-icon danger">✓</div>
+                    </div>
+                </div>
+
+                <!-- Grading Scale Info -->
+                <div class="card mb-6">
+                    <div class="card-body">
+                        <h3 style="margin-bottom: 16px;">📊 Grading Scale</h3>
+                        <div class="flex gap-2" style="flex-wrap: wrap;">
+                            <span class="badge badge-success">A+ (90-100%)</span>
+                            <span class="badge badge-success">A (85-89%)</span>
+                            <span class="badge badge-success">A- (80-84%)</span>
+                            <span class="badge badge-info">B+ (75-79%)</span>
+                            <span class="badge badge-info">B (70-74%)</span>
+                            <span class="badge badge-info">B- (65-69%)</span>
+                            <span class="badge badge-warning">C+ (60-64%)</span>
+                            <span class="badge badge-warning">C (55-59%)</span>
+                            <span class="badge badge-warning">C- (50-54%)</span>
+                            <span class="badge" style="background: #FED7AA; color: #C2410C;">D (45-49%)</span>
+                            <span class="badge badge-danger">F (Below 45%)</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Detailed Results -->
+                <div class="content-section">
+                    <div class="section-header">
+                        <h2 class="section-title">📝 Detailed Results</h2>
+                    </div>
+                    
+                    <div id="resultsContainer">
+                        <!-- Dynamic course result cards -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../../js/storage.js"></script>
+    <script src="../../js/auth.js"></script>
+    <script src="../../js/attendance.js"></script>
+    <script src="../../js/results.js"></script>
+    <script src="../../js/ui.js"></script>
+    <script src="../../js/student-results.js"></script>
+</body>
+</html>

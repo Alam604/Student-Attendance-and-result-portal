@@ -1,0 +1,494 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Students - Admin Portal</title>
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-brand">
+                    <div class="logo">P</div>
+                    <span>Student Portal</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">Main Menu</div>
+                    <a href="dashboard.html" class="nav-link" data-page="dashboard">
+                        <span class="icon">📊</span>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="students.html" class="nav-link active" data-page="students">
+                        <span class="icon">👨‍🎓</span>
+                        <span>Students</span>
+                    </a>
+                    <a href="teachers.html" class="nav-link" data-page="teachers">
+                        <span class="icon">👨‍🏫</span>
+                        <span>Teachers</span>
+                    </a>
+                    <a href="courses.html" class="nav-link" data-page="courses">
+                        <span class="icon">📚</span>
+                        <span>Courses</span>
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-section-title">Reports</div>
+                    <a href="attendance-report.html" class="nav-link" data-page="attendance-report">
+                        <span class="icon">📋</span>
+                        <span>Attendance Reports</span>
+                    </a>
+                    <a href="results-report.html" class="nav-link" data-page="results-report">
+                        <span class="icon">📈</span>
+                        <span>Result Reports</span>
+                    </a>
+                </div>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">AD</div>
+                    <div class="user-details">
+                        <div class="user-name">Administrator</div>
+                        <div class="user-role">admin</div>
+                    </div>
+                    <button class="logout-btn" title="Logout">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16 17 21 12 16 7"></polyline>
+                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-header">
+                <div class="header-left">
+                    <button class="menu-toggle">☰</button>
+                    <div>
+                        <h1 class="page-title">Manage Students</h1>
+                        <nav class="breadcrumb">
+                            <a href="dashboard.html">Home</a>
+                            <span class="breadcrumb-separator">/</span>
+                            <span>Students</span>
+                        </nav>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="btn btn-primary" onclick="showAddModal()">
+                        <span>+</span> Add Student
+                    </button>
+                </div>
+            </header>
+
+            <div class="content-area">
+                <!-- Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Total Students</h3>
+                            <div class="stat-value" id="totalStudents">0</div>
+                        </div>
+                        <div class="stat-icon primary">👨‍🎓</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Active Students</h3>
+                            <div class="stat-value" id="activeStudents">0</div>
+                        </div>
+                        <div class="stat-icon success">✅</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Avg Attendance</h3>
+                            <div class="stat-value" id="avgAttendance">0%</div>
+                        </div>
+                        <div class="stat-icon warning">📊</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Avg GPA</h3>
+                            <div class="stat-value" id="avgGPA">0.00</div>
+                        </div>
+                        <div class="stat-icon danger">🎓</div>
+                    </div>
+                </div>
+
+                <!-- Students Table -->
+                <div class="data-table">
+                    <div class="table-header">
+                        <h3 class="table-title">All Students</h3>
+                        <div class="table-actions">
+                            <div class="search-input">
+                                <span class="search-icon">🔍</span>
+                                <input type="text" class="form-control" id="searchInput" placeholder="Search students...">
+                            </div>
+                            <select class="form-control" id="deptFilter" style="width: auto;">
+                                <option value="">All Departments</option>
+                                <option value="Computer Science">Computer Science</option>
+                                <option value="Information Technology">Information Technology</option>
+                                <option value="Software Engineering">Software Engineering</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="table-body">
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>Student</th>
+                                    <th>ID</th>
+                                    <th>Email</th>
+                                    <th>Department</th>
+                                    <th>Semester</th>
+                                    <th>Attendance</th>
+                                    <th>GPA</th>
+                                    <th>Actions</th>
+                                </tr>
+                            </thead>
+                            <tbody id="studentsTableBody">
+                                <!-- Dynamic content -->
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit Student Modal -->
+    <div class="modal-overlay" id="studentModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="modalTitle">Add New Student</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="studentForm">
+                    <input type="hidden" id="editStudentId">
+                    <div class="form-group">
+                        <label for="studentName">Full Name</label>
+                        <input type="text" class="form-control" id="studentName" required placeholder="Enter full name">
+                    </div>
+                    <div class="form-group">
+                        <label for="studentEmail">Email</label>
+                        <input type="email" class="form-control" id="studentEmail" required placeholder="Enter email">
+                    </div>
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="studentDept">Department</label>
+                            <select class="form-control" id="studentDept" required>
+                                <option value="">Select Department</option>
+                                <option value="Computer Science">Computer Science</option>
+                                <option value="Information Technology">Information Technology</option>
+                                <option value="Software Engineering">Software Engineering</option>
+                            </select>
+                        </div>
+                        <div class="form-group">
+                            <label for="studentSemester">Semester</label>
+                            <select class="form-control" id="studentSemester" required>
+                                <option value="">Select Semester</option>
+                                <option value="1">1st Semester</option>
+                                <option value="2">2nd Semester</option>
+                                <option value="3">3rd Semester</option>
+                                <option value="4">4th Semester</option>
+                                <option value="5">5th Semester</option>
+                                <option value="6">6th Semester</option>
+                                <option value="7">7th Semester</option>
+                                <option value="8">8th Semester</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group" id="passwordGroup">
+                        <label for="studentPassword">Password</label>
+                        <input type="password" class="form-control" id="studentPassword" placeholder="Enter password">
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="saveStudent()">Save Student</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../js/storage.js"></script>
+    <script src="../../js/auth.js"></script>
+    <script src="../../js/attendance.js"></script>
+    <script src="../../js/results.js"></script>
+    <script src="../../js/ui.js"></script>
+    <script>
+        let isEditing = false;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            UIManager.initDashboard();
+            AuthManager.protectPage('admin');
+            loadStudents();
+            loadStats();
+            initEventListeners();
+        });
+
+        function loadStats() {
+            const students = StorageManager.get('students') || [];
+            const attendance = StorageManager.get('attendance') || [];
+            const results = StorageManager.get('results') || [];
+            
+            document.getElementById('totalStudents').textContent = students.length;
+            document.getElementById('activeStudents').textContent = students.length;
+            
+            // Calculate avg attendance
+            if (attendance.length > 0) {
+                const presentCount = attendance.filter(a => a.status === 'present').length;
+                const avgAtt = Math.round((presentCount / attendance.length) * 100);
+                document.getElementById('avgAttendance').textContent = avgAtt + '%';
+            }
+            
+            // Calculate avg GPA
+            if (results.length > 0 && students.length > 0) {
+                let totalGPA = 0;
+                let studentCount = 0;
+                
+                students.forEach(student => {
+                    const gpaData = ResultsManager.getStudentGPA(student.id);
+                    if (gpaData.totalCredits > 0) {
+                        totalGPA += gpaData.gpa;
+                        studentCount++;
+                    }
+                });
+                
+                const avgGPA = studentCount > 0 ? (totalGPA / studentCount).toFixed(2) : '0.00';
+                document.getElementById('avgGPA').textContent = avgGPA;
+            }
+        }
+
+        function loadStudents() {
+            const students = StorageManager.get('students') || [];
+            const attendance = StorageManager.get('attendance') || [];
+            const deptFilter = document.getElementById('deptFilter').value;
+            const tbody = document.getElementById('studentsTableBody');
+            
+            let filteredStudents = students;
+            if (deptFilter) {
+                filteredStudents = students.filter(s => s.department === deptFilter);
+            }
+            
+            if (filteredStudents.length === 0) {
+                tbody.innerHTML = `
+                    <tr>
+                        <td colspan="8" class="text-center p-6">
+                            <div class="empty-state">
+                                <div class="icon">👨‍🎓</div>
+                                <h3>No Students Found</h3>
+                                <p>Add your first student to get started.</p>
+                            </div>
+                        </td>
+                    </tr>
+                `;
+                return;
+            }
+
+            tbody.innerHTML = filteredStudents.map(student => {
+                // Calculate attendance
+                const studentAttendance = attendance.filter(a => a.studentId === student.id);
+                const presentCount = studentAttendance.filter(a => a.status === 'present').length;
+                const attendancePercent = studentAttendance.length > 0 
+                    ? Math.round((presentCount / studentAttendance.length) * 100) 
+                    : 0;
+                
+                // Get GPA
+                const gpaData = ResultsManager.getStudentGPA(student.id);
+                
+                const attendanceClass = attendancePercent >= 75 ? 'success' : attendancePercent >= 50 ? 'warning' : 'danger';
+                
+                return `
+                    <tr>
+                        <td>
+                            <div class="flex items-center gap-3">
+                                <div class="user-avatar" style="width:36px;height:36px;font-size:12px;">
+                                    ${student.name.split(' ').map(n => n[0]).join('').toUpperCase()}
+                                </div>
+                                <span>${UIManager.escapeHTML(student.name)}</span>
+                            </div>
+                        </td>
+                        <td>${UIManager.escapeHTML(student.id)}</td>
+                        <td>${UIManager.escapeHTML(student.email || 'N/A')}</td>
+                        <td>${UIManager.escapeHTML(student.department || 'N/A')}</td>
+                        <td>${student.semester || 'N/A'}</td>
+                        <td>
+                            <div class="flex items-center gap-2">
+                                <div class="progress-bar" style="width: 60px; height: 6px;">
+                                    <div class="progress-fill ${attendanceClass}" style="width: ${attendancePercent}%;"></div>
+                                </div>
+                                <span class="text-sm">${attendancePercent}%</span>
+                            </div>
+                        </td>
+                        <td>
+                            <span class="badge badge-primary">${gpaData.gpa.toFixed(2)}</span>
+                        </td>
+                        <td>
+                            <button class="action-btn edit" title="Edit" onclick="editStudent('${student.id}')">✏️</button>
+                            <button class="action-btn delete" title="Delete" onclick="deleteStudent('${student.id}')">🗑️</button>
+                        </td>
+                    </tr>
+                `;
+            }).join('');
+        }
+
+        function showAddModal() {
+            isEditing = false;
+            document.getElementById('modalTitle').textContent = 'Add New Student';
+            document.getElementById('studentForm').reset();
+            document.getElementById('editStudentId').value = '';
+            document.getElementById('passwordGroup').style.display = 'block';
+            document.getElementById('studentPassword').required = true;
+            document.getElementById('studentModal').classList.add('active');
+        }
+
+        function editStudent(id) {
+            isEditing = true;
+            const students = StorageManager.get('students') || [];
+            const student = students.find(s => s.id === id);
+            
+            if (!student) return;
+            
+            document.getElementById('modalTitle').textContent = 'Edit Student';
+            document.getElementById('editStudentId').value = id;
+            document.getElementById('studentName').value = student.name;
+            document.getElementById('studentEmail').value = student.email || '';
+            document.getElementById('studentDept').value = student.department || '';
+            document.getElementById('studentSemester').value = student.semester || '';
+            document.getElementById('passwordGroup').style.display = 'none';
+            document.getElementById('studentPassword').required = false;
+            document.getElementById('studentModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('studentModal').classList.remove('active');
+            document.getElementById('studentForm').reset();
+        }
+
+        function saveStudent() {
+            const name = document.getElementById('studentName').value;
+            const email = document.getElementById('studentEmail').value;
+            const department = document.getElementById('studentDept').value;
+            const semester = document.getElementById('studentSemester').value;
+            const password = document.getElementById('studentPassword').value;
+            const editId = document.getElementById('editStudentId').value;
+
+            if (!name || !email || !department || !semester) {
+                UIManager.showToast('Please fill all required fields', 'error');
+                return;
+            }
+
+            if (!isEditing && !password) {
+                UIManager.showToast('Password is required for new students', 'error');
+                return;
+            }
+
+            let students = StorageManager.get('students') || [];
+            let users = StorageManager.get('users') || [];
+
+            if (isEditing) {
+                // Update existing student
+                const studentIndex = students.findIndex(s => s.id === editId);
+                if (studentIndex !== -1) {
+                    students[studentIndex] = {
+                        ...students[studentIndex],
+                        name,
+                        email,
+                        department,
+                        semester
+                    };
+                }
+                
+                // Update user name
+                const userIndex = users.findIndex(u => u.id === editId);
+                if (userIndex !== -1) {
+                    users[userIndex].name = name;
+                }
+                
+                UIManager.showToast('Student updated successfully!', 'success');
+            } else {
+                // Add new student
+                const newId = 'student' + String(students.length + 1).padStart(3, '0');
+                
+                students.push({
+                    id: newId,
+                    name,
+                    email,
+                    department,
+                    semester
+                });
+                
+                users.push({
+                    id: newId,
+                    password,
+                    role: 'student',
+                    name,
+                    studentId: newId
+                });
+                
+                UIManager.showToast('Student added successfully!', 'success');
+            }
+            
+            StorageManager.set('students', students);
+            StorageManager.set('users', users);
+            
+            closeModal();
+            loadStudents();
+            loadStats();
+        }
+
+        function deleteStudent(id) {
+            if (!confirm('Are you sure you want to delete this student? This will also delete their attendance and result records.')) return;
+            
+            let students = StorageManager.get('students') || [];
+            let users = StorageManager.get('users') || [];
+            let attendance = StorageManager.get('attendance') || [];
+            let results = StorageManager.get('results') || [];
+            
+            students = students.filter(s => s.id !== id);
+            users = users.filter(u => u.id !== id);
+            attendance = attendance.filter(a => a.studentId !== id);
+            results = results.filter(r => r.studentId !== id);
+            
+            StorageManager.set('students', students);
+            StorageManager.set('users', users);
+            StorageManager.set('attendance', attendance);
+            StorageManager.set('results', results);
+            
+            UIManager.showToast('Student deleted successfully!', 'success');
+            loadStudents();
+            loadStats();
+        }
+
+        function initEventListeners() {
+            // Search functionality
+            document.getElementById('searchInput').addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                const rows = document.querySelectorAll('#studentsTableBody tr');
+                
+                rows.forEach(row => {
+                    const text = row.textContent.toLowerCase();
+                    row.style.display = text.includes(query) ? '' : 'none';
+                });
+            });
+            
+            // Department filter
+            document.getElementById('deptFilter').addEventListener('change', function() {
+                loadStudents();
+            });
+        }
+    </script>
+</body>
+</html>

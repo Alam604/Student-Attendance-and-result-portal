@@ -1,0 +1,180 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mark Attendance - Student Portal</title>
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-brand">
+                    <div class="logo">P</div>
+                    <span>Student Portal</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">Main Menu</div>
+                    <a href="dashboard.html" class="nav-link" data-page="dashboard">
+                        <span class="icon">📊</span>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="attendance.html" class="nav-link active" data-page="attendance">
+                        <span class="icon">📋</span>
+                        <span>Mark Attendance</span>
+                    </a>
+                    <a href="results.html" class="nav-link" data-page="results">
+                        <span class="icon">📝</span>
+                        <span>Upload Results</span>
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-section-title">Reports</div>
+                    <a href="attendance-report.html" class="nav-link" data-page="attendance-report">
+                        <span class="icon">📈</span>
+                        <span>Attendance Report</span>
+                    </a>
+                </div>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">TN</div>
+                    <div class="user-details">
+                        <div class="user-name">Teacher Name</div>
+                        <div class="user-role">teacher</div>
+                    </div>
+                    <button class="logout-btn" title="Logout">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16 17 21 12 16 7"></polyline>
+                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-header">
+                <div class="header-left">
+                    <button class="menu-toggle">☰</button>
+                    <div>
+                        <h1 class="page-title">Mark Attendance</h1>
+                        <nav class="breadcrumb">
+                            <a href="dashboard.html">Home</a>
+                            <span class="breadcrumb-separator">/</span>
+                            <span>Mark Attendance</span>
+                        </nav>
+                    </div>
+                </div>
+            </header>
+
+            <div class="content-area">
+                <!-- Selection Panel -->
+                <div class="card mb-6">
+                    <div class="card-body">
+                        <div class="form-row">
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label for="courseSelect">Select Course</label>
+                                <select id="courseSelect" class="form-control">
+                                    <option value="">Choose a course</option>
+                                </select>
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0;">
+                                <label for="dateSelect">Select Date</label>
+                                <input type="date" id="dateSelect" class="form-control">
+                            </div>
+                            <div class="form-group" style="margin-bottom: 0; display: flex; align-items: flex-end;">
+                                <button id="loadStudentsBtn" class="btn btn-primary">
+                                    Load Students
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Attendance Marking Section -->
+                <div id="attendanceSection" class="hidden">
+                    <div class="card mb-6">
+                        <div class="card-header">
+                            <div class="flex justify-between items-center">
+                                <div>
+                                    <h3 id="selectedCourseTitle">Course Name</h3>
+                                    <p class="text-muted text-sm" style="margin: 0;" id="selectedDate">Date</p>
+                                </div>
+                                <div class="flex gap-2">
+                                    <button id="markAllPresentBtn" class="btn btn-success btn-sm">
+                                        ✓ Mark All Present
+                                    </button>
+                                    <button id="markAllAbsentBtn" class="btn btn-danger btn-sm">
+                                        ✕ Mark All Absent
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div id="studentsGrid" class="attendance-grid">
+                                <!-- Dynamic student cards -->
+                            </div>
+                        </div>
+                        <div class="card-footer">
+                            <div class="flex justify-between items-center">
+                                <div id="attendanceSummary" class="text-sm">
+                                    <span class="badge badge-success" id="presentCount">Present: 0</span>
+                                    <span class="badge badge-danger" id="absentCount">Absent: 0</span>
+                                </div>
+                                <button id="saveAttendanceBtn" class="btn btn-primary">
+                                    💾 Save Attendance
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Previous Records -->
+                <div class="content-section">
+                    <div class="section-header">
+                        <h2 class="section-title">Previous Attendance Records</h2>
+                    </div>
+                    <div class="data-table">
+                        <div class="table-body">
+                            <table>
+                                <thead>
+                                    <tr>
+                                        <th>Date</th>
+                                        <th>Course</th>
+                                        <th>Present</th>
+                                        <th>Absent</th>
+                                        <th>Rate</th>
+                                        <th>Actions</th>
+                                    </tr>
+                                </thead>
+                                <tbody id="previousRecordsBody">
+                                    <!-- Dynamic content -->
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <script src="../../js/storage.js"></script>
+    <script src="../../js/auth.js"></script>
+    <script src="../../js/attendance.js"></script>
+    <script src="../../js/results.js"></script>
+    <script src="../../js/ui.js"></script>
+    <script src="../../js/teacher-attendance.js"></script>
+</body>
+</html>

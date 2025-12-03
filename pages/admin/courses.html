@@ -1,0 +1,450 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Manage Courses - Admin Portal</title>
+    <link rel="stylesheet" href="../../css/main.css">
+    <link rel="stylesheet" href="../../css/dashboard.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="dashboard-layout">
+        <!-- Sidebar -->
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <div class="sidebar-brand">
+                    <div class="logo">P</div>
+                    <span>Student Portal</span>
+                </div>
+            </div>
+            
+            <nav class="sidebar-nav">
+                <div class="nav-section">
+                    <div class="nav-section-title">Main Menu</div>
+                    <a href="dashboard.html" class="nav-link" data-page="dashboard">
+                        <span class="icon">📊</span>
+                        <span>Dashboard</span>
+                    </a>
+                    <a href="students.html" class="nav-link" data-page="students">
+                        <span class="icon">👨‍🎓</span>
+                        <span>Students</span>
+                    </a>
+                    <a href="teachers.html" class="nav-link" data-page="teachers">
+                        <span class="icon">👨‍🏫</span>
+                        <span>Teachers</span>
+                    </a>
+                    <a href="courses.html" class="nav-link active" data-page="courses">
+                        <span class="icon">📚</span>
+                        <span>Courses</span>
+                    </a>
+                </div>
+                
+                <div class="nav-section">
+                    <div class="nav-section-title">Reports</div>
+                    <a href="attendance-report.html" class="nav-link" data-page="attendance-report">
+                        <span class="icon">📋</span>
+                        <span>Attendance Reports</span>
+                    </a>
+                    <a href="results-report.html" class="nav-link" data-page="results-report">
+                        <span class="icon">📈</span>
+                        <span>Result Reports</span>
+                    </a>
+                </div>
+            </nav>
+            
+            <div class="sidebar-footer">
+                <div class="user-info">
+                    <div class="user-avatar">AD</div>
+                    <div class="user-details">
+                        <div class="user-name">Administrator</div>
+                        <div class="user-role">admin</div>
+                    </div>
+                    <button class="logout-btn" title="Logout">
+                        <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                            <path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"></path>
+                            <polyline points="16 17 21 12 16 7"></polyline>
+                            <line x1="21" y1="12" x2="9" y2="12"></line>
+                        </svg>
+                    </button>
+                </div>
+            </div>
+        </aside>
+
+        <!-- Main Content -->
+        <main class="main-content">
+            <header class="top-header">
+                <div class="header-left">
+                    <button class="menu-toggle">☰</button>
+                    <div>
+                        <h1 class="page-title">Manage Courses</h1>
+                        <nav class="breadcrumb">
+                            <a href="dashboard.html">Home</a>
+                            <span class="breadcrumb-separator">/</span>
+                            <span>Courses</span>
+                        </nav>
+                    </div>
+                </div>
+                <div class="header-right">
+                    <button class="btn btn-primary" onclick="showAddModal()">
+                        <span>+</span> Add Course
+                    </button>
+                </div>
+            </header>
+
+            <div class="content-area">
+                <!-- Stats -->
+                <div class="stats-grid">
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Total Courses</h3>
+                            <div class="stat-value" id="totalCourses">0</div>
+                        </div>
+                        <div class="stat-icon primary">📚</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Total Credits</h3>
+                            <div class="stat-value" id="totalCredits">0</div>
+                        </div>
+                        <div class="stat-icon success">📊</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>With Teachers</h3>
+                            <div class="stat-value" id="assignedCourses">0</div>
+                        </div>
+                        <div class="stat-icon warning">👨‍🏫</div>
+                    </div>
+                    <div class="stat-card">
+                        <div class="stat-info">
+                            <h3>Avg Class Size</h3>
+                            <div class="stat-value" id="avgClassSize">0</div>
+                        </div>
+                        <div class="stat-icon danger">👥</div>
+                    </div>
+                </div>
+
+                <!-- Courses Grid -->
+                <div class="content-section">
+                    <div class="section-header">
+                        <h2 class="section-title">All Courses</h2>
+                        <div class="search-input">
+                            <span class="search-icon">🔍</span>
+                            <input type="text" class="form-control" id="searchInput" placeholder="Search courses...">
+                        </div>
+                    </div>
+                    
+                    <div class="stats-grid" id="coursesGrid">
+                        <!-- Dynamic course cards -->
+                    </div>
+                </div>
+            </div>
+        </main>
+    </div>
+
+    <!-- Add/Edit Course Modal -->
+    <div class="modal-overlay" id="courseModal">
+        <div class="modal">
+            <div class="modal-header">
+                <h3 id="modalTitle">Add New Course</h3>
+                <button class="modal-close" onclick="closeModal()">&times;</button>
+            </div>
+            <div class="modal-body">
+                <form id="courseForm">
+                    <input type="hidden" id="editCourseId">
+                    <div class="form-row">
+                        <div class="form-group">
+                            <label for="courseCode">Course Code</label>
+                            <input type="text" class="form-control" id="courseCode" required placeholder="e.g., CS101">
+                        </div>
+                        <div class="form-group">
+                            <label for="courseCredits">Credits</label>
+                            <select class="form-control" id="courseCredits" required>
+                                <option value="">Select Credits</option>
+                                <option value="1">1 Credit</option>
+                                <option value="2">2 Credits</option>
+                                <option value="3">3 Credits</option>
+                                <option value="4">4 Credits</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label for="courseName">Course Name</label>
+                        <input type="text" class="form-control" id="courseName" required placeholder="Enter course name">
+                    </div>
+                    <div class="form-group">
+                        <label for="courseDesc">Description</label>
+                        <textarea class="form-control" id="courseDesc" rows="3" placeholder="Enter course description"></textarea>
+                    </div>
+                    <div class="form-group">
+                        <label for="courseTeacher">Assigned Teacher</label>
+                        <select class="form-control" id="courseTeacher">
+                            <option value="">Select Teacher (Optional)</option>
+                        </select>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button class="btn btn-secondary" onclick="closeModal()">Cancel</button>
+                <button class="btn btn-primary" onclick="saveCourse()">Save Course</button>
+            </div>
+        </div>
+    </div>
+
+    <script src="../../js/storage.js"></script>
+    <script src="../../js/auth.js"></script>
+    <script src="../../js/attendance.js"></script>
+    <script src="../../js/results.js"></script>
+    <script src="../../js/ui.js"></script>
+    <script>
+        let isEditing = false;
+
+        document.addEventListener('DOMContentLoaded', function() {
+            UIManager.initDashboard();
+            AuthManager.protectPage('admin');
+            loadTeacherOptions();
+            loadCourses();
+            loadStats();
+            initEventListeners();
+        });
+
+        function loadTeacherOptions() {
+            const teachers = StorageManager.get('teachers') || [];
+            const select = document.getElementById('courseTeacher');
+            
+            // Clear existing options except first
+            select.innerHTML = '<option value="">Select Teacher (Optional)</option>';
+            
+            teachers.forEach(teacher => {
+                const option = document.createElement('option');
+                option.value = teacher.id;
+                option.textContent = teacher.name;
+                select.appendChild(option);
+            });
+        }
+
+        function loadStats() {
+            const courses = StorageManager.get('courses') || [];
+            const students = StorageManager.get('students') || [];
+            
+            document.getElementById('totalCourses').textContent = courses.length;
+            
+            const totalCredits = courses.reduce((sum, c) => sum + (c.credits || 0), 0);
+            document.getElementById('totalCredits').textContent = totalCredits;
+            
+            const assignedCourses = courses.filter(c => c.teacherId).length;
+            document.getElementById('assignedCourses').textContent = assignedCourses;
+            
+            // Calculate average class size (assuming all students are enrolled in all courses for simplicity)
+            const avgSize = courses.length > 0 ? Math.round(students.length) : 0;
+            document.getElementById('avgClassSize').textContent = avgSize;
+        }
+
+        function loadCourses() {
+            const courses = StorageManager.get('courses') || [];
+            const teachers = StorageManager.get('teachers') || [];
+            const attendance = StorageManager.get('attendance') || [];
+            const results = StorageManager.get('results') || [];
+            const container = document.getElementById('coursesGrid');
+            
+            if (courses.length === 0) {
+                container.innerHTML = `
+                    <div style="grid-column: 1/-1;" class="text-center p-6">
+                        <div class="empty-state">
+                            <div class="icon">📚</div>
+                            <h3>No Courses Found</h3>
+                            <p>Add your first course to get started.</p>
+                        </div>
+                    </div>
+                `;
+                return;
+            }
+
+            container.innerHTML = courses.map(course => {
+                const teacher = teachers.find(t => t.id === course.teacherId);
+                
+                // Get course stats
+                const courseAttendance = attendance.filter(a => a.courseId === course.id);
+                const presentCount = courseAttendance.filter(a => a.status === 'present').length;
+                const attendancePercent = courseAttendance.length > 0 
+                    ? Math.round((presentCount / courseAttendance.length) * 100) 
+                    : 0;
+                
+                const courseResults = results.filter(r => r.courseId === course.id);
+                const studentsEnrolled = [...new Set(courseResults.map(r => r.studentId))].length;
+                
+                const attendanceClass = attendancePercent >= 75 ? 'success' : attendancePercent >= 50 ? 'warning' : 'danger';
+                
+                return `
+                    <div class="card" style="padding: 0; overflow: hidden;">
+                        <div style="background: linear-gradient(135deg, var(--primary-color), #7C3AED); padding: 20px; color: white;">
+                            <div class="flex justify-between items-start">
+                                <div>
+                                    <span style="background: rgba(255,255,255,0.2); padding: 4px 12px; border-radius: 20px; font-size: 12px; font-weight: 600;">
+                                        ${UIManager.escapeHTML(course.code)}
+                                    </span>
+                                    <h3 style="margin-top: 12px; color: white; font-size: 18px;">${UIManager.escapeHTML(course.name)}</h3>
+                                </div>
+                                <div class="flex gap-1">
+                                    <button class="action-btn" style="color: white;" onclick="editCourse('${course.id}')" title="Edit">✏️</button>
+                                    <button class="action-btn" style="color: white;" onclick="deleteCourse('${course.id}')" title="Delete">🗑️</button>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="flex items-center gap-3 mb-4">
+                                <div class="user-avatar" style="width:36px;height:36px;font-size:12px;">
+                                    ${teacher ? teacher.name.split(' ').map(n => n[0]).join('').toUpperCase() : '?'}
+                                </div>
+                                <div>
+                                    <div style="font-weight: 500;">${teacher ? UIManager.escapeHTML(teacher.name) : 'Not Assigned'}</div>
+                                    <div class="text-sm text-muted">Instructor</div>
+                                </div>
+                            </div>
+                            
+                            <div class="flex justify-between text-sm mb-3">
+                                <span class="text-muted">Credits</span>
+                                <span class="badge badge-primary">${course.credits} Credits</span>
+                            </div>
+                            
+                            <div class="flex justify-between text-sm mb-3">
+                                <span class="text-muted">Students</span>
+                                <span>${studentsEnrolled} enrolled</span>
+                            </div>
+                            
+                            <div class="mb-2">
+                                <div class="flex justify-between text-sm mb-1">
+                                    <span class="text-muted">Avg Attendance</span>
+                                    <span style="font-weight: 600;">${attendancePercent}%</span>
+                                </div>
+                                <div class="progress-bar" style="height: 6px;">
+                                    <div class="progress-fill ${attendanceClass}" style="width: ${attendancePercent}%;"></div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function showAddModal() {
+            isEditing = false;
+            document.getElementById('modalTitle').textContent = 'Add New Course';
+            document.getElementById('courseForm').reset();
+            document.getElementById('editCourseId').value = '';
+            document.getElementById('courseModal').classList.add('active');
+        }
+
+        function editCourse(id) {
+            isEditing = true;
+            const courses = StorageManager.get('courses') || [];
+            const course = courses.find(c => c.id === id);
+            
+            if (!course) return;
+            
+            document.getElementById('modalTitle').textContent = 'Edit Course';
+            document.getElementById('editCourseId').value = id;
+            document.getElementById('courseCode').value = course.code;
+            document.getElementById('courseName').value = course.name;
+            document.getElementById('courseCredits').value = course.credits;
+            document.getElementById('courseDesc').value = course.description || '';
+            document.getElementById('courseTeacher').value = course.teacherId || '';
+            document.getElementById('courseModal').classList.add('active');
+        }
+
+        function closeModal() {
+            document.getElementById('courseModal').classList.remove('active');
+            document.getElementById('courseForm').reset();
+        }
+
+        function saveCourse() {
+            const code = document.getElementById('courseCode').value.trim();
+            const name = document.getElementById('courseName').value.trim();
+            const credits = parseInt(document.getElementById('courseCredits').value);
+            const description = document.getElementById('courseDesc').value.trim();
+            const teacherId = document.getElementById('courseTeacher').value;
+            const editId = document.getElementById('editCourseId').value;
+
+            if (!code || !name || !credits) {
+                UIManager.showToast('Please fill all required fields', 'error');
+                return;
+            }
+
+            let courses = StorageManager.get('courses') || [];
+
+            if (isEditing) {
+                const courseIndex = courses.findIndex(c => c.id === editId);
+                if (courseIndex !== -1) {
+                    courses[courseIndex] = {
+                        ...courses[courseIndex],
+                        code,
+                        name,
+                        credits,
+                        description,
+                        teacherId: teacherId || null
+                    };
+                }
+                UIManager.showToast('Course updated successfully!', 'success');
+            } else {
+                // Check for duplicate code
+                if (courses.some(c => c.code.toLowerCase() === code.toLowerCase())) {
+                    UIManager.showToast('A course with this code already exists', 'error');
+                    return;
+                }
+                
+                const newId = 'course' + String(courses.length + 1).padStart(3, '0');
+                
+                courses.push({
+                    id: newId,
+                    code,
+                    name,
+                    credits,
+                    description,
+                    teacherId: teacherId || null
+                });
+                
+                UIManager.showToast('Course added successfully!', 'success');
+            }
+            
+            StorageManager.set('courses', courses);
+            
+            closeModal();
+            loadCourses();
+            loadStats();
+        }
+
+        function deleteCourse(id) {
+            if (!confirm('Are you sure you want to delete this course? This will also delete all related attendance and result records.')) return;
+            
+            let courses = StorageManager.get('courses') || [];
+            let attendance = StorageManager.get('attendance') || [];
+            let results = StorageManager.get('results') || [];
+            
+            courses = courses.filter(c => c.id !== id);
+            attendance = attendance.filter(a => a.courseId !== id);
+            results = results.filter(r => r.courseId !== id);
+            
+            StorageManager.set('courses', courses);
+            StorageManager.set('attendance', attendance);
+            StorageManager.set('results', results);
+            
+            UIManager.showToast('Course deleted successfully!', 'success');
+            loadCourses();
+            loadStats();
+        }
+
+        function initEventListeners() {
+            document.getElementById('searchInput').addEventListener('input', function(e) {
+                const query = e.target.value.toLowerCase();
+                const cards = document.querySelectorAll('#coursesGrid .card');
+                
+                cards.forEach(card => {
+                    const text = card.textContent.toLowerCase();
+                    card.style.display = text.includes(query) ? '' : 'none';
+                });
+            });
+        }
+    </script>
+</body>
+</html>

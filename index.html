@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Student Attendance & Result Portal - Login</title>
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/login.css">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+</head>
+<body>
+    <div class="login-container">
+        <div class="login-left">
+            <!-- Floating Shapes -->
+            <div class="shape shape-1"></div>
+            <div class="shape shape-2"></div>
+            <div class="shape shape-3"></div>
+            
+            <div class="brand">
+                <div class="logo">
+                    <svg width="56" height="56" viewBox="0 0 56 56" fill="none" xmlns="http://www.w3.org/2000/svg">
+                        <rect width="56" height="56" rx="16" fill="rgba(255,255,255,0.2)"/>
+                        <rect x="4" y="4" width="48" height="48" rx="12" fill="white"/>
+                        <path d="M18 38V18H28C30.5 18 32.5 18.8 34 20.4C35.5 22 36.25 24 36.25 26.4C36.25 28.8 35.5 30.8 34 32.4C32.5 34 30.5 34.8 28 34.8H23V38H18ZM23 30.4H27.5C28.6 30.4 29.5 30.05 30.2 29.35C30.9 28.65 31.25 27.7 31.25 26.5C31.25 25.3 30.9 24.35 30.2 23.65C29.5 22.95 28.6 22.6 27.5 22.6H23V30.4Z" fill="url(#gradient1)"/>
+                        <defs>
+                            <linearGradient id="gradient1" x1="18" y1="18" x2="36" y2="38" gradientUnits="userSpaceOnUse">
+                                <stop stop-color="#4F46E5"/>
+                                <stop offset="1" stop-color="#7C3AED"/>
+                            </linearGradient>
+                        </defs>
+                    </svg>
+                </div>
+                <h1>Student Portal</h1>
+                <p>Attendance & Result Management System</p>
+            </div>
+            <div class="features">
+                <div class="feature-item">
+                    <div class="feature-icon">📊</div>
+                    <div class="feature-text">
+                        <h3>Track Attendance</h3>
+                        <p>Monitor and manage student attendance records</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">📝</div>
+                    <div class="feature-text">
+                        <h3>Manage Results</h3>
+                        <p>Upload marks and auto-calculate grades</p>
+                    </div>
+                </div>
+                <div class="feature-item">
+                    <div class="feature-icon">👥</div>
+                    <div class="feature-text">
+                        <h3>Multiple Roles</h3>
+                        <p>Admin, Teacher, and Student portals</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="login-right">
+            <div class="login-form-container">
+                <h2>Welcome Back!</h2>
+                <p class="subtitle">Please sign in to your account</p>
+                
+                <form id="loginForm" class="login-form">
+                    <div class="form-group">
+                        <label for="userRole">Select Role</label>
+                        <select id="userRole" name="userRole" required>
+                            <option value="">Choose your role</option>
+                            <option value="admin">Admin</option>
+                            <option value="teacher">Teacher</option>
+                            <option value="student">Student</option>
+                        </select>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="userId">User ID</label>
+                        <input type="text" id="userId" name="userId" placeholder="Enter your ID" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label for="password">Password</label>
+                        <div class="password-input">
+                            <input type="password" id="password" name="password" placeholder="Enter your password" required>
+                            <button type="button" id="togglePassword" class="toggle-password">
+                                <svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+                                    <path d="M1 12s4-8 11-8 11 8 11 8-4 8-11 8-11-8-11-8z"></path>
+                                    <circle cx="12" cy="12" r="3"></circle>
+                                </svg>
+                            </button>
+                        </div>
+                    </div>
+                    
+                    <div class="form-options">
+                        <label class="checkbox-container">
+                            <input type="checkbox" id="rememberMe">
+                            <span class="checkmark"></span>
+                            Remember me
+                        </label>
+                        <a href="#" class="forgot-link">Forgot Password?</a>
+                    </div>
+                    
+                    <button type="submit" class="btn btn-primary btn-block">
+                        Sign In
+                    </button>
+                    
+                    <div id="loginError" class="error-message hidden"></div>
+                </form>
+                
+                <div class="demo-credentials">
+                    <h4>Demo Credentials</h4>
+                    <div class="credentials-list">
+                        <div class="credential-item">
+                            <span class="role-badge admin">Admin</span>
+                            <span>ID: admin001 | Pass: admin123</span>
+                        </div>
+                        <div class="credential-item">
+                            <span class="role-badge teacher">Teacher</span>
+                            <span>ID: teacher001 | Pass: teacher123</span>
+                        </div>
+                        <div class="credential-item">
+                            <span class="role-badge student">Student</span>
+                            <span>ID: student001 | Pass: student123</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="js/storage.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/login.js"></script>
+</body>
+</html>
